@@ -1339,6 +1339,12 @@ void DW1000Class::correctTimestamp(DW1000Time& timestamp) {
 	float rxPowerBase = -(getReceivePower() + 61.0f) * 0.5f;
 	int rxPowerBaseLow = (int)rxPowerBase;
 	int rxPowerBaseHigh = rxPowerBaseLow + 1;
+ /*  SerialOut.print("\nrxPowerBase: ");
+  SerialOut.print(rxPowerBase);
+     SerialOut.print("\trxPowerBaseLow: ");
+  SerialOut.print(rxPowerBaseLow);
+     SerialOut.print("\trxPowerBaseHigh: ");
+  SerialOut.print(rxPowerBaseHigh);*/
 	if(rxPowerBaseLow < 0) {
 		rxPowerBaseLow = 0;
 		rxPowerBaseHigh = 0;
@@ -1378,16 +1384,36 @@ void DW1000Class::correctTimestamp(DW1000Time& timestamp) {
 	}
 	// linear interpolation of bias values
 	float rangeBias = (float)rangeBiasLow + (rxPowerBase - (float)rxPowerBaseLow) * ((float)rangeBiasHigh - (float)rangeBiasLow);
+  /*SerialOut.print("\nrangeBias: ");
+  SerialOut.print(rangeBias);*/
+
+ 
 	// range bias [mm] to timestamp modification value conversion
 	DW1000Time adjustmentTime;
-	adjustmentTime.setTimestamp((int)(rangeBias * DISTANCE_OF_RADIO_INV * 0.001f));
-  SerialOut.print("\n Before: ");
+  int64_t adjTime = (int64_t) (rangeBias * DISTANCE_OF_RADIO_INV * 0.001f);
+  /*SerialOut.print("\tadjTime: ");
+  SerialOut.print(adjTime);
+	adjustmentTime.setTimestamp(adjTime);
+  SerialOut.print("\nBefore: ");
   SerialOut.print(timestamp.getAsFloat());
+      SerialOut.print("\tdistance: ");
+  SerialOut.print(timestamp.getAsMeters());*/
+
+	
+  adjustmentTime.setTimestamp(1000000);
+    SerialOut.print("\nAdjustmentTime in float: ");
+  SerialOut.print(adjustmentTime.getAsFloat());
+      SerialOut.print("\nAdjustmentTime in meters: ");
+  SerialOut.print(adjustmentTime.getAsMeters());
 	// apply correction
 	timestamp += adjustmentTime;
-  SerialOut.print("\n After: ");
+  
+ /* SerialOut.print("\nAfter: ");
   SerialOut.print(timestamp.getAsFloat());
+    SerialOut.print("\tdistance: ");
+  SerialOut.print(timestamp.getAsMeters());*/
     SerialOut.print("\n");
+    
 }
 
 void DW1000Class::getSystemTimestamp(DW1000Time& time) {
