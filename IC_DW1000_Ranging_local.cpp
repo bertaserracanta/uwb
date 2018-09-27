@@ -789,7 +789,7 @@ void DW1000RangingClass::timerTick()
         {
                 #define MAX_CCA (30*60*1000)    //Prevent overflow
                 if ((millis()-lastForeignPacket)>MAX_CCA) lastForeignPacket=millis()-MAX_CCA;
-                if ( ((millis()-lastMeasureStart)<DEFAULT_TIMER_DELAY) || ((millis()-lastForeignPacket)<
+                if ( ((millis()-lastMeasureStart)<500) || ((millis()-lastForeignPacket)<
                   ((((100-((millis()-lastMeasureStart)/25))>15)&&((millis()-lastMeasureStart)/25)<100)?(100-((millis()-lastMeasureStart)/25)):15)
                   ) )
                 {

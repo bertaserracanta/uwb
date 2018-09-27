@@ -19,19 +19,9 @@
   Das Antennendelay wenn es dann stabil ist, unten eintragen
     - #define ANTENNA_DELAY 32850UL
   Anker mit #define DO_ANTENNA_CALIB 0 endgueltig programmieren
-
-  TRANSLATION:
-
-  Calibration:
-   Set Anchor with "#define DO_ANTENNA_CALIB 1"
-   Place the TAG in exactly DO_ANTENNA_CALIB_VALUE meter distance
-   At the top right of the table output on Serial, the detected AntennaDelay is displayed
-   When the antenna is stable, enter the value at the antenna variable below (uncomment it)
-     - #define ANTENNA_DELAY 32850UL
-   Reset anchor with #define DO_ANTENNA_CALIB 0 at the end
 */
-#define DO_ANTENNA_CALIB 1
-#define DO_ANTENNA_CALIB_VALUE 9.3 //VALUE FOUND AT TABLE 56 FROM DOC USER MANUAL
+#define DO_ANTENNA_CALIB 0
+#define DO_ANTENNA_CALIB_VALUE 3.0
 //#define ANTENNA_DELAY 32850UL //DW1000 USB Stick
 
 #ifndef ANTENNA_DELAY

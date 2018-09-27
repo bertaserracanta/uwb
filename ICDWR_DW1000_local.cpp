@@ -49,7 +49,7 @@ byte DW1000Class::_chanctrl[LEN_CHAN_CTRL];
 byte DW1000Class::_networkAndAddress[LEN_PANADR];
 // driver internal state
 byte DW1000Class::_extendedFrameLength = FRAME_LENGTH_NORMAL;
-byte DW1000Class::_pacSize = PAC_SIZE_64;
+byte DW1000Class::_pacSize = PAC_SIZE_8;
 byte DW1000Class::_pulseFrequency = TX_PULSE_FREQ_16MHZ;
 byte DW1000Class::_dataRate = TRX_RATE_6800KBPS;
 byte DW1000Class::_preambleLength = TX_PREAMBLE_LEN_128;
@@ -60,22 +60,19 @@ boolean DW1000Class::_smartPower = false;
 boolean DW1000Class::_frameCheck = true;
 boolean DW1000Class::_permanentReceive = false;
 int DW1000Class::_deviceMode = IDLE_MODE;
-
 // modes of operation
-const byte DW1000Class::MODE_IN_CIRCUIT_1[] = {TRX_RATE_850KBPS, TX_PULSE_FREQ_64MHZ, TX_PREAMBLE_LEN_1024, CHANNEL_1};
-const byte DW1000Class::MODE_IN_CIRCUIT_2[] = {TRX_RATE_850KBPS, TX_PULSE_FREQ_16MHZ, TX_PREAMBLE_LEN_1024, CHANNEL_1}; 
-const byte DW1000Class::MODE_IN_CIRCUIT_3[] = {TRX_RATE_6800KBPS, TX_PULSE_FREQ_64MHZ, TX_PREAMBLE_LEN_1024, CHANNEL_1}; 
-const byte DW1000Class::MODE_IN_CIRCUIT_4[] = {TRX_RATE_110KBPS, TX_PULSE_FREQ_16MHZ, TX_PREAMBLE_LEN_2048, CHANNEL_1};  
-const byte DW1000Class::MODE_IN_CIRCUIT_5[] = {TRX_RATE_6800KBPS, TX_PULSE_FREQ_16MHZ, TX_PREAMBLE_LEN_1024, CHANNEL_1};
-const byte DW1000Class::MODE_IN_CIRCUIT_7[] = {TRX_RATE_110KBPS, TX_PULSE_FREQ_16MHZ, TX_PREAMBLE_LEN_2048, CHANNEL_1};  
-
-const byte DW1000Class::MODE_LONGDATA_RANGE_LOWPOWER[] = {TRX_RATE_110KBPS, TX_PULSE_FREQ_16MHZ, TX_PREAMBLE_LEN_1024, CHANNEL_5};
+const byte DW1000Class::MODE_IN_CIRCUIT_1[] = {TRX_RATE_850KBPS, TX_PULSE_FREQ_16MHZ, TX_PREAMBLE_LEN_1024, CHANNEL_1};
+const byte DW1000Class::MODE_IN_CIRCUIT_2[] = {TRX_RATE_850KBPS, TX_PULSE_FREQ_16MHZ, TX_PREAMBLE_LEN_1024, CHANNEL_2};
+const byte DW1000Class::MODE_IN_CIRCUIT_3[] = {TRX_RATE_850KBPS, TX_PULSE_FREQ_16MHZ, TX_PREAMBLE_LEN_1024, CHANNEL_3};
+const byte DW1000Class::MODE_IN_CIRCUIT_4[] = {TRX_RATE_6800KBPS, TX_PULSE_FREQ_64MHZ, TX_PREAMBLE_LEN_1024, CHANNEL_4};
+const byte DW1000Class::MODE_IN_CIRCUIT_5[] = {TRX_RATE_850KBPS, TX_PULSE_FREQ_16MHZ, TX_PREAMBLE_LEN_1024, CHANNEL_5};
+const byte DW1000Class::MODE_IN_CIRCUIT_7[] = {TRX_RATE_850KBPS, TX_PULSE_FREQ_16MHZ, TX_PREAMBLE_LEN_1024, CHANNEL_7};
+const byte DW1000Class::MODE_LONGDATA_RANGE_LOWPOWER[] = {TRX_RATE_110KBPS, TX_PULSE_FREQ_16MHZ, TX_PREAMBLE_LEN_2048, CHANNEL_5};
 const byte DW1000Class::MODE_SHORTDATA_FAST_LOWPOWER[] = {TRX_RATE_6800KBPS, TX_PULSE_FREQ_16MHZ, TX_PREAMBLE_LEN_128, CHANNEL_5};
 const byte DW1000Class::MODE_LONGDATA_FAST_LOWPOWER[] = {TRX_RATE_6800KBPS, TX_PULSE_FREQ_16MHZ, TX_PREAMBLE_LEN_1024, CHANNEL_5};
 const byte DW1000Class::MODE_SHORTDATA_FAST_ACCURACY[] = {TRX_RATE_6800KBPS, TX_PULSE_FREQ_64MHZ, TX_PREAMBLE_LEN_128, CHANNEL_5};
 const byte DW1000Class::MODE_LONGDATA_FAST_ACCURACY[] = {TRX_RATE_6800KBPS, TX_PULSE_FREQ_64MHZ, TX_PREAMBLE_LEN_1024, CHANNEL_5};
 const byte DW1000Class::MODE_LONGDATA_RANGE_ACCURACY[] = {TRX_RATE_110KBPS, TX_PULSE_FREQ_64MHZ, TX_PREAMBLE_LEN_2048, CHANNEL_5};
-
 // range bias tables (500 MHz in [mm] and 900 MHz in [2mm] - to fit into bytes)
 const byte DW1000Class::BIAS_500_16[] = {198, 187, 179, 163, 143, 127, 109, 84, 59, 31,   0,  36,  65,  84,  97, 106, 110, 112};
 const byte DW1000Class::BIAS_500_64[] = {110, 105, 100,  93,  82,  69,  51, 27,  0, 21,  35,  42,  49,  62,  71,  76,  81,  86};
@@ -1384,8 +1381,13 @@ void DW1000Class::correctTimestamp(DW1000Time& timestamp) {
 	// range bias [mm] to timestamp modification value conversion
 	DW1000Time adjustmentTime;
 	adjustmentTime.setTimestamp((int)(rangeBias * DISTANCE_OF_RADIO_INV * 0.001f));
+  SerialOut.print("\n Before: ");
+  SerialOut.print(timestamp.getAsFloat());
 	// apply correction
 	timestamp += adjustmentTime;
+  SerialOut.print("\n After: ");
+  SerialOut.print(timestamp.getAsFloat());
+    SerialOut.print("\n");
 }
 
 void DW1000Class::getSystemTimestamp(DW1000Time& time) {

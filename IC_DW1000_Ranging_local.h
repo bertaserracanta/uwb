@@ -52,8 +52,6 @@
 #define DEFAULT_SPI_IRQ_PIN 33
 #define DEFAULT_WAKE_PIN 32
 
-#define TIME_CONSTANT 1
-
 //Default value
 //in ms
 #define DEFAULT_RESET_PERIOD 750
@@ -65,7 +63,7 @@
 //#define DEFAULT_REPLY_DELAY_TIME 7000UL
 //#define DEFAULT_REPLY_DELAY_TIME 5000UL
 //#define DEFAULT_REPLY_DELAY_TIME 2500UL
-#define DEFAULT_REPLY_DELAY_TIME TIME_CONSTANT*1500UL		//any shorter leads to calculation errors
+#define DEFAULT_REPLY_DELAY_TIME 1500UL		//any shorter leads to calculation errors
 //#define DEFAULT_REPLY_DELAY_TIME 500UL
 
 //sketch type (anchor or tag)
@@ -74,16 +72,16 @@
 
 //default timer delay
 #define TIMER_DELAY_NOWORK  0    //while waiting for channel free
-#define TIMER_DELAY_BLINK  TIME_CONSTANT*15    //wait this long for range init
-#define TIMER_DELAY_POLL   TIME_CONSTANT*10    //wait this long for poll ack
-#define TIMER_DELAY_RANGE  TIME_CONSTANT*10    //wait this long for range report
-#define TIMER_REC_DELAY_POLL TIME_CONSTANT*9
-#define DEFAULT_TIMER_DELAY 0  //on Anchor: time between device table cleanup, on tag: pause after cycle complete
+#define TIMER_DELAY_BLINK  15    //wait this long for range init
+#define TIMER_DELAY_POLL   10    //wait this long for poll ack
+#define TIMER_DELAY_RANGE  10    //wait this long for range report
+#define TIMER_REC_DELAY_POLL 9
+#define DEFAULT_TIMER_DELAY 0   //on Anchor: time between device table cleanup, on tag: pause after cycle complete
  
 
 //debug mode
 #ifndef DEBUG
-#define DEBUG true //false
+#define DEBUG false
 #endif
 
 

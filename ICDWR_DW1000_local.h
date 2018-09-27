@@ -20,6 +20,8 @@
  * Arduino driver library (header file) for the Decawave DW1000 UWB transceiver IC.
  */
 
+#include <SPI.h>
+
 #ifndef _DW1000_H_INCLUDED
 #define _DW1000_H_INCLUDED
 
@@ -27,6 +29,9 @@
 //#define dw1000Serial Serial2
 //#define dw1000Serial Serial1
 #define dw1000SPI SPI_intern
+
+//define Serial
+#define SerialOut Serial
 
 #define DW1000_DEFAULT_ANTENNA_DELAY 16384
 

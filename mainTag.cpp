@@ -25,7 +25,7 @@
 
 #define ANTENNA_DELAY 0
 
-#define DoPrintOut 0  //Always print out measuremts on Serial
+#define DoPrintOut 0  //Alway print out measuremts on Serial
 #define ALWAYS_ON_TEST 0  //Do not enter deep sleep if no movement is detected
 
 #define LEDFLASHTIME 10
