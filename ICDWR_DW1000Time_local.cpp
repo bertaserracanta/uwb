@@ -184,7 +184,12 @@ void DW1000Time::print(){
         return;
     }
     
-    
+  //MODIFIED to show adjustmentTime in ICDWR_DW1000_local.cpp
+    if(number < 0){
+      dw1000Serial.print(number);
+       return;
+    }
+   
     while (number > 0)
     {
         uint64_t q = number/10;

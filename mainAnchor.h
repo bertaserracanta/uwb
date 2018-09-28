@@ -9,6 +9,8 @@
 #include <SPI.h>
 #include <Wire.h>
 #include "IC_DW1000_Ranging_local.h"
+//MODIFIED
+#include "ICDWR_DW1000_local.h"
 
 #include "common.h"
 

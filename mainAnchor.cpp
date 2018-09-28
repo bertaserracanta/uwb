@@ -9,6 +9,9 @@
 #include <EEPROM.h>
 #include <SPI.h>
 #include "IC_DW1000_Ranging_local.h"
+//MODIFIED
+#include "ICDWR_DW1000_local.h"
+
 #include "ICDWR_DW1000Device_local.h"
 #include "config_menu_anchor.h"
 
@@ -285,6 +288,8 @@ void newRange_anchor()
     SerialOut.print(DW1000Ranging.getDistantDevice()->getOtherRXPower()); SerialOut.print(",");
     SerialOut.print(DW1000Ranging.getDistantDevice()->getRXPower());
     SerialOut.println();
+
+    
   }
 }
 

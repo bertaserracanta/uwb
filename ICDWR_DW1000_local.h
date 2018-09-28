@@ -25,13 +25,14 @@
 #ifndef _DW1000_H_INCLUDED
 #define _DW1000_H_INCLUDED
 
-#define dw1000Serial if(false)Serial1
+
+//#define dw1000Serial if(false)Serial1
 //#define dw1000Serial Serial2
 //#define dw1000Serial Serial1
 #define dw1000SPI SPI_intern
 
-//define Serial
-#define SerialOut Serial
+//define Serial - MODIFIED
+#define dw1000Serial Serial
 
 #define DW1000_DEFAULT_ANTENNA_DELAY 16384
 
@@ -520,6 +521,9 @@ public:
 	static float getFirstPathPower();
 	static float getReceiveQuality();
 
+  /*MODIFIED getter of the counter*/
+  static int getCounter();
+
 	/* interrupt management. */
 	static void interruptOnSent(boolean val);
 	static void interruptOnReceived(boolean val);
@@ -672,6 +676,9 @@ public:
 	static const byte MODE_SHORTDATA_FAST_ACCURACY[];
 	static const byte MODE_LONGDATA_FAST_ACCURACY[];
 	static const byte MODE_LONGDATA_RANGE_ACCURACY[];
+
+  /*MODIFIED Counter to count the number of corrections*/
+  static int counter;
 
 private:
 	/* chip select, reset and interrupt pins. */
