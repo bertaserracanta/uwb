@@ -1337,9 +1337,12 @@ void DW1000Class::getReceiveTimestamp(DW1000Time& time) {
 	correctTimestamp(time);
 }
 
+//MODIFIED
 void DW1000Class::correctTimestamp(DW1000Time& timestamp) {
 	// base line dBm, which is -61, 2 dBm steps, total 18 data points (down to -95 dBm)
   counter = counter + 1;
+  dw1000Serial.print("Comptador de correct Timestamp: ");
+  dw1000Serial.println(counter);
 	float rxPowerBase = -(getReceivePower() + 61.0f) * 0.5f;
 	int rxPowerBaseLow = (int)rxPowerBase;
 	int rxPowerBaseHigh = rxPowerBaseLow + 1;
@@ -1427,11 +1430,6 @@ void DW1000Class::correctTimestamp(DW1000Time& timestamp) {
   timestamp.print();
     dw1000Serial.print("\n");
     
-}
-
-//MODIFIED:
-int DW1000Class::getCounter(){
-  return counter;
 }
 
 void DW1000Class::getSystemTimestamp(DW1000Time& time) {
@@ -1828,4 +1826,13 @@ void DW1000Class::getPrettyBytes(byte cmd, word offset, char msgBuffer[], unsign
 	}
 	msgBuffer[b++] = '\0';
 	free(readBuf);
+}
+
+//MODIFIED:
+int DW1000Class::getCounter(){
+  return counter;
+}
+
+void DW1000Class::resetCounter(){
+  counter = 0;
 }

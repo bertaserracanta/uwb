@@ -256,6 +256,9 @@ void measureComplete()
 // Called from ISR -> Keep short!!
 void newRange_anchor()
 {
+  //MODIFIED
+  int c = 0;
+  
 #if DO_ANTENNA_CALIB
   if (weAreAnchor)
   {
@@ -286,7 +289,13 @@ void newRange_anchor()
     SerialOut.print(DW1000Ranging.getDistantDevice()->getRange()); SerialOut.print(",");
     SerialOut.print(2+(((float)DW1000Ranging.getDistantDevice()->batLevel)/100)); SerialOut.print(",");
     SerialOut.print(DW1000Ranging.getDistantDevice()->getOtherRXPower()); SerialOut.print(",");
-    SerialOut.print(DW1000Ranging.getDistantDevice()->getRXPower());
+    SerialOut.print(DW1000Ranging.getDistantDevice()->getRXPower()); SerialOut.print(",");
+
+    //MODIFIED:
+    c = DW1000.getCounter();
+    SerialOut.print(c); 
+    DW1000.resetCounter();   
+    
     SerialOut.println();
 
     

@@ -521,8 +521,9 @@ public:
 	static float getFirstPathPower();
 	static float getReceiveQuality();
 
-  /*MODIFIED getter of the counter*/
+  /*MODIFIED counter methods*/
   static int getCounter();
+  static void resetCounter();
 
 	/* interrupt management. */
 	static void interruptOnSent(boolean val);
