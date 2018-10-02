@@ -160,6 +160,12 @@ void DW1000RangingClass::generalStart()
     // attach callback for (successfully) sent and received messages
     DW1000.attachSentHandler(handleSent);
     DW1000.attachReceivedHandler(handleReceived);
+    
+        //MODIFIED
+    DW1000.setCounter(DW1000.getCounter() + 1);
+    dw1000Serial.print("Comptador de correct Timestamp: ");
+    dw1000Serial.println(DW1000.getCounter());
+    
     // anchor starts in receiving mode, awaiting a ranging poll message
     
     if(DEBUG)
@@ -499,11 +505,6 @@ void DW1000RangingClass::handleReceived()
     
     DW1000Time timeReceiveStamp;
     DW1000.getReceiveTimestamp(timeReceiveStamp);
-
-    //MODIFIED
-    DW1000.setCounter(DW1000.getCounter() + 1);
-    dw1000Serial.print("Comptador de correct Timestamp: ");
-    dw1000Serial.println(DW1000.getCounter());
     
     
     //we read the datas from the modules:
