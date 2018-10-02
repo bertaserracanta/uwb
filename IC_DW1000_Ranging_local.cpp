@@ -499,6 +499,12 @@ void DW1000RangingClass::handleReceived()
     
     DW1000Time timeReceiveStamp;
     DW1000.getReceiveTimestamp(timeReceiveStamp);
+
+    //MODIFIED
+    DW1000.setCounter(DW1000.getCounter() + 1);
+    dw1000Serial.print("Comptador de correct Timestamp: ");
+    dw1000Serial.println(DW1000.getCounter());
+    
     
     //we read the datas from the modules:
     // get message and parse

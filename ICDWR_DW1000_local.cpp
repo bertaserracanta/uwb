@@ -1340,18 +1340,15 @@ void DW1000Class::getReceiveTimestamp(DW1000Time& time) {
 //MODIFIED
 void DW1000Class::correctTimestamp(DW1000Time& timestamp) {
 	// base line dBm, which is -61, 2 dBm steps, total 18 data points (down to -95 dBm)
-  counter = counter + 1;
+  
+  /*counter = counter + 1;
   dw1000Serial.print("Comptador de correct Timestamp: ");
-  dw1000Serial.println(counter);
+  dw1000Serial.println(counter);*/
+	
 	float rxPowerBase = -(getReceivePower() + 61.0f) * 0.5f;
 	int rxPowerBaseLow = (int)rxPowerBase;
 	int rxPowerBaseHigh = rxPowerBaseLow + 1;
- /*  SerialOut.print("\nrxPowerBase: ");
-  SerialOut.print(rxPowerBase);
-     SerialOut.print("\trxPowerBaseLow: ");
-  SerialOut.print(rxPowerBaseLow);
-     SerialOut.print("\trxPowerBaseHigh: ");
-  SerialOut.print(rxPowerBaseHigh);*/
+
 	if(rxPowerBaseLow < 0) {
 		rxPowerBaseLow = 0;
 		rxPowerBaseHigh = 0;
@@ -1391,44 +1388,25 @@ void DW1000Class::correctTimestamp(DW1000Time& timestamp) {
 	}
 	// linear interpolation of bias values
 	float rangeBias = (float)rangeBiasLow + (rxPowerBase - (float)rxPowerBaseLow) * ((float)rangeBiasHigh - (float)rangeBiasLow);
-  /*SerialOut.print("\nrangeBias: ");
-  SerialOut.print(rangeBias);*/
-
  
 	// range bias [mm] to timestamp modification value conversion
 	DW1000Time adjustmentTime;
   int64_t adjTime = (int64_t) (rangeBias * DISTANCE_OF_RADIO_INV * 0.001f);
   
-  /*SerialOut.print("\nadjTime: ");
-  SerialOut.print(adjTime);*/
-  
 	adjustmentTime.setTimestamp(adjTime);
- 
-  /*SerialOut.print("\tadjustmentTime(us): ");
-  SerialOut.print(adjustmentTime.getAsFloat());
-  SerialOut.print("\tadjustmentTime(m): ");
-  SerialOut.print(adjustmentTime.getAsMeters());
-  SerialOut.print("\nBefore(us): ");
-  SerialOut.print(timestamp.getAsFloat());
-  SerialOut.print("\tDistance(m): ");
-  SerialOut.print(timestamp.getAsMeters());*/
 
-  dw1000Serial.print("\nadjustmentTime: ");
+  /*dw1000Serial.print("\nadjustmentTime: ");
   adjustmentTime.print();
   dw1000Serial.print("\nPrevious timestamp: ");
-  timestamp.print();
+  timestamp.print();*/
 	
 	// apply correction
 	timestamp += adjustmentTime;
   
- /*SerialOut.print("\nAfter(us): ");
-  SerialOut.print(timestamp.getAsFloat());
-    SerialOut.print("\tDistance(m): ");
-  SerialOut.print(timestamp.getAsMeters());*/
 
-  dw1000Serial.print("\nAfter timestamp: ");
+  /*dw1000Serial.print("\nAfter timestamp: ");
   timestamp.print();
-    dw1000Serial.print("\n");
+    dw1000Serial.print("\n");*/
     
 }
 
@@ -1835,4 +1813,8 @@ int DW1000Class::getCounter(){
 
 void DW1000Class::resetCounter(){
   counter = 0;
+}
+
+void DW1000Class::setCounter(int val){
+  counter = val;
 }

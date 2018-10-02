@@ -524,6 +524,7 @@ public:
   /*MODIFIED counter methods*/
   static int getCounter();
   static void resetCounter();
+  static void setCounter(int val);
 
 	/* interrupt management. */
 	static void interruptOnSent(boolean val);
@@ -678,7 +679,7 @@ public:
 	static const byte MODE_LONGDATA_FAST_ACCURACY[];
 	static const byte MODE_LONGDATA_RANGE_ACCURACY[];
 
-  /*MODIFIED Counter to count the number of corrections*/
+  /* Counter to count the number of corrections*/
   static int counter;
 
 private:
