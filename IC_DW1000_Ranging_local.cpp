@@ -161,11 +161,6 @@ void DW1000RangingClass::generalStart()
     DW1000.attachSentHandler(handleSent);
     DW1000.attachReceivedHandler(handleReceived);
     
-        //MODIFIED
-    DW1000.setCounter(DW1000.getCounter() + 1);
-    dw1000Serial.print("Comptador de correct Timestamp: ");
-    dw1000Serial.println(DW1000.getCounter());
-    
     // anchor starts in receiving mode, awaiting a ranging poll message
     
     if(DEBUG)
@@ -200,7 +195,7 @@ void DW1000RangingClass::generalStart()
 }
 
 void DW1000RangingClass::startAsAnchor(const char address[],  const byte mode[], unsigned short myShortAddress, enum ic_dw1000_deviceType devType)
-{
+{  
     _networkDevicesNumber = 0;
     //save the address
     DW1000.convertToByte(address, _currentAddress);

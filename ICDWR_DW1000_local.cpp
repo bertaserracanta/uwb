@@ -1019,6 +1019,12 @@ void DW1000Class::newReceive(bool clearStatus) {
 }
 
 void DW1000Class::startReceive() {
+
+    /*MODIFIED print del comptador
+    DW1000.setCounter(DW1000.getCounter() + 1);
+    dw1000Serial.print("Comptador: ");
+    dw1000Serial.println(DW1000.getCounter());*/
+  
 	setBit(_sysctrl, LEN_SYS_CTRL, SFCST_BIT, !_frameCheck);
 	setBit(_sysctrl, LEN_SYS_CTRL, RXENAB_BIT, true);
 	writeBytes(SYS_CTRL, NO_SUB, _sysctrl, LEN_SYS_CTRL);
@@ -1334,7 +1340,9 @@ void DW1000Class::getReceiveTimestamp(DW1000Time& time) {
 	readBytes(RX_TIME, RX_STAMP_SUB, rxTimeBytes, LEN_RX_STAMP);
 	time.setTimestamp(rxTimeBytes);
 	// correct timestamp (i.e. consider range bias)
-	correctTimestamp(time);
+	
+	//MODIFIED
+	//correctTimestamp(time);
 }
 
 //MODIFIED
