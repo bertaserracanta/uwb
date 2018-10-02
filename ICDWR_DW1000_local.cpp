@@ -1818,3 +1818,9 @@ void DW1000Class::resetCounter(){
 void DW1000Class::setCounter(int val){
   counter = val;
 }
+
+//To put de counter:
+     //MODIFIED
+   /* DW1000.setCounter(DW1000.getCounter() + 1);
+    dw1000Serial.print("Comptador de correct Timestamp: ");
+    dw1000Serial.println(DW1000.getCounter());*/

@@ -161,11 +161,6 @@ void DW1000RangingClass::generalStart()
     DW1000.attachSentHandler(handleSent);
     DW1000.attachReceivedHandler(handleReceived);
     
-        //MODIFIED
-    DW1000.setCounter(DW1000.getCounter() + 1);
-    dw1000Serial.print("Comptador de correct Timestamp: ");
-    dw1000Serial.println(DW1000.getCounter());
-    
     // anchor starts in receiving mode, awaiting a ranging poll message
     
     if(DEBUG)
@@ -506,6 +501,10 @@ void DW1000RangingClass::handleReceived()
     DW1000Time timeReceiveStamp;
     DW1000.getReceiveTimestamp(timeReceiveStamp);
     
+    //MODIFIED
+    DW1000.setCounter(DW1000.getCounter() + 1);
+    dw1000Serial.print("Comptador de correct Timestamp ");
+
     
     //we read the datas from the modules:
     // get message and parse
@@ -518,6 +517,10 @@ void DW1000RangingClass::handleReceived()
     if(messageType==BLINK && _type==TAG)
     {
       lastForeignPacket = timeNow;
+
+      //MODIFIED:
+      dw1000Serial.print("No s'utilitza, messageType==BLINK && _type==TAG: ");
+      dw1000Serial.println(DW1000.getCounter());
     }
     else if(messageType==BLINK && _type==ANCHOR)
     {
@@ -532,6 +535,10 @@ void DW1000RangingClass::handleReceived()
         myTag.lastBlinkTime = timeNow;
         myTag.noteActivity();
         noteActivity();
+
+      //MODIFIED:
+      dw1000Serial.print("No s'utilitza, messageType==BLINK && _type==ANCHOR: ");
+      dw1000Serial.println(DW1000.getCounter());
         
         if(addNetworkDevices(&myTag))
         {
@@ -547,18 +554,18 @@ void DW1000RangingClass::handleReceived()
             {
               myDistantDevice->knownCount = data[SHORT_BLINK_LEN+1];
               myDistantDevice->lastBlinkId = data[SHORT_BLINK_LEN+2];
-bool canSleep = false;
-uint32_t delta = timeNow-myDistantDevice->lastBlinkTime;
-if ((myDistantDevice->lastAnsweredBlinkId+1) == myDistantDevice->lastBlinkId)
-{
-  canSleep = true;
-  for(int i=0; canSleep && i<_networkDevicesNumber; i++)
-  {
-    if (_networkDevices[i].isInactive()) continue;
-    if ((timeNow-_networkDevices[i]._activity)<delta) continue;
-    canSleep = false;
-  }
-}
+              bool canSleep = false;
+              uint32_t delta = timeNow-myDistantDevice->lastBlinkTime;
+              if ((myDistantDevice->lastAnsweredBlinkId+1) == myDistantDevice->lastBlinkId)
+              {
+                canSleep = true;
+                for(int i=0; canSleep && i<_networkDevicesNumber; i++)
+                {
+                  if (_networkDevices[i].isInactive()) continue;
+                  if ((timeNow-_networkDevices[i]._activity)<delta) continue;
+                  canSleep = false;
+                }
+              }
               myDistantDevice->lastBlinkTime = timeNow;
               if (_requestDelayedIsr!=0)
               {
@@ -631,7 +638,12 @@ if ((myDistantDevice->lastAnsweredBlinkId+1) == myDistantDevice->lastBlinkId)
               
               // on POLL we (re-)start, so no protocol failure
               _protocolFailed = false;
-              
+
+
+                    //MODIFIED:
+      dw1000Serial.print("S'utilitza, messageType==POLL && _type==ANCHOR: ");
+      dw1000Serial.println(DW1000.getCounter());
+      
               myDistantDevice->timePollReceived = timeReceiveStamp;
               //we note activity for our device:
               myDistantDevice->noteActivity();
@@ -643,6 +655,11 @@ if ((myDistantDevice->lastAnsweredBlinkId+1) == myDistantDevice->lastBlinkId)
             }
             else if(messageType == RANGE)
             {
+
+      //MODIFIED:
+      dw1000Serial.print("S'utilitza, messageType==RANGE && _type==ANCHOR: ");
+      dw1000Serial.println(DW1000.getCounter());
+              
               //we grab the replytime
               myDistantDevice->timeRangeReceived = timeReceiveStamp;
               noteActivity();
@@ -688,6 +705,11 @@ if ((myDistantDevice->lastAnsweredBlinkId+1) == myDistantDevice->lastBlinkId)
         {
             if(messageType==RANGING_INIT)
             {
+
+      //MODIFIED:
+      dw1000Serial.print("No s'utilitza, messageType==RANGING_INIT && _type==TAG: ");
+      dw1000Serial.println(DW1000.getCounter());
+              
                 //we crate a new device with the anchor
                 DW1000Device myAnchor(address);
                 myAnchor.devType = (enum ic_dw1000_deviceType)data[SHORT_MAC_LEN+1];
@@ -711,6 +733,11 @@ if ((myDistantDevice->lastAnsweredBlinkId+1) == myDistantDevice->lastBlinkId)
             }
             else if(messageType == POLL_ACK)
             {
+
+      //MODIFIED:
+      dw1000Serial.print("S'utilitza, messageType==POLL_ACK && _type==TAG: ");
+      dw1000Serial.println(DW1000.getCounter());
+              
                 myDistantDevice->timePollAckReceived = timeReceiveStamp;
                 //we note activity for our device
                 myDistantDevice->noteActivity();
@@ -722,6 +749,11 @@ if ((myDistantDevice->lastAnsweredBlinkId+1) == myDistantDevice->lastBlinkId)
             }
             else if(messageType == RANGE_REPORT)
             {
+
+      //MODIFIED:
+      dw1000Serial.print("No s'utilitza, messageType==RANGE_REPORT && _type==TAG: ");
+      dw1000Serial.println(DW1000.getCounter());
+              
                 float curRange;
                 memcpy(&curRange, data+1+SHORT_MAC_LEN, 4);
                 float curRXPower;
