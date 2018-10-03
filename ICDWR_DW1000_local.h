@@ -26,13 +26,13 @@
 #define _DW1000_H_INCLUDED
 
 
-//#define dw1000Serial if(false)Serial1
+#define dw1000Serial if(false)Serial1
 //#define dw1000Serial Serial2
 //#define dw1000Serial Serial1
 #define dw1000SPI SPI_intern
 
 //define Serial - MODIFIED
-#define dw1000Serial Serial
+//#define dw1000Serial Serial
 
 #define DW1000_DEFAULT_ANTENNA_DELAY 16384
 
